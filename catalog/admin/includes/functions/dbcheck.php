@@ -1356,6 +1356,101 @@ echo '</table>';
 
 <?php
 }
+
+function duplicate_models() {
+?>
+
+<table cellpadding="0" border="1" valign="top">
+<tr>
+<td width="100%"><table border="1" width="100%" cellspacing="0" cellpadding="0">
+<tr class="dataTableHeadingRow">
+
+<?php
+//Query database for all duplicate product models.  Determined by matching products_model fields of COUNT(*) > than 1.
+$query = "SELECT products_model, COUNT(*) AS NumOccurrences FROM " . TABLE_PRODUCTS . " GROUP BY products_model HAVING ( COUNT(products_model) > 1 )";
+$query_info = tep_db_query($query);
+
+//  Count the number of rows that are returned. (if any)
+$num = tep_db_num_rows($query_info);
+?>
+<td class="pageHeading" width="100%" align="center"><?php echo $num . " " . HEADING_ACTION_DUPLICATE_MODEL;?></td>
+</tr>
+</table>
+<table width="100%" cellpadding="0" border="1" valign="top">
+<tr>
+<?php
+//Let's find out if we have matches.  If not, we say so.
+if ($num < 1) {
+echo "<td width='100%' align='center' class='dataTableRow'>"; echo NO_PRODUCTS_MODELS; "</td>";
+}else{
+//  We have matches!  We list them all.
+?>
+
+<!-- Begin Column Headings //-->
+<tr class="dataTableContent">
+<td align="center" class="dataTableHeadingRow"><?php echo HEADING_ACTION_ID;?> *</td>
+<td align="center" class="dataTableHeadingRow"><?php echo HEADING_ACTION_MODEL;?> *</td>
+<td align="center" class="dataTableHeadingRow"><?php echo HEADING_ACTION_PRODUCT_NAME;?></td>
+<td align="center" class="dataTableHeadingRow"><?php echo HEADING_ACTION_LANGUAGE_ID;?></td>
+<td align="center" class="dataTableHeadingRow"><?php echo HEADING_ACTION_DATE_ADDED;?></td>
+<td align="center" class="dataTableHeadingRow"><?php echo HEADING_ACTION_MANUFACTURER;?></td>
+<td align="center" class="dataTableHeadingRow"><?php echo HEADING_ACTION_DELETE;?></td>
+</tr>
+<!-- End Column Headings //-->
+
+<?php
+// Begin first loop for results
+for ($i=0; $i < $num; $i++) {
+$row = tep_db_fetch_array($query_info);
+$products_model = $row['products_model'];
+
+//  Let's get products_id numbers (all instances) for products that match the product model(s) we found in the last query.
+$second_query = "SELECT p.products_id, pd.language_id FROM " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd WHERE p.products_id = pd.products_id and p.products_model ='" .addslashes($products_model) . "'";
+$second_query_info = tep_db_query($second_query);
+$second_num = tep_db_num_rows($second_query_info);
+
+//  Begin second loop to be sure we get all of the resulting product id numbers.
+for ($j=0; $j < $second_num; $j++) {
+$row2 = tep_db_fetch_array($second_query_info);
+$products_id = $row2['products_id'];
+
+//  Now let's get some more user friendly information to help identify these products more easily.
+$final_query = "SELECT p.products_id, pd.products_name, p.products_date_added, p.manufacturers_id, m.manufacturers_id, m.manufacturers_name FROM (" . TABLE_PRODUCTS . " p) LEFT JOIN " . TABLE_MANUFACTURERS . " m ON p.manufacturers_id = m.manufacturers_id,  " . TABLE_PRODUCTS_DESCRIPTION . " pd WHERE p.products_id = pd.products_id and p.products_id = '" . (int)$products_id . "'";
+$final_query_info = tep_db_query($final_query);
+$final_num = tep_db_num_rows($final_query_info);
+$row3 = tep_db_fetch_array($final_query_info);
+$products_date_added = $row3['products_date_added'];
+$products_name = $row3['products_name'];
+$manufacturers_name = $row3['manufacturers_name'];
+$products_language = $row2['language_id'];
+//  Show results.
+echo '<tr>';
+echo '<td align="center" class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)"><a href="categories.php?action=new_product&pID=' . $products_id . ' " target=_blank">' . $products_id . '</a></td>';
+echo '<td align="center" class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)"><a href="categories.php?action=new_product&pID=' . $products_id . ' " target=_blank">' . $products_model . '</a></td>';
+echo '<td>' . $products_name . '</td>';
+echo '<td>' . $products_language . '</td>';
+echo '<td>' . $products_date_added . '</td>';
+echo '<td>' . $manufacturers_name . '</td>';
+echo '<td><a href="database_check.php?action=delete_products&ref=19&products_id=' . $products_id . ' " onclick="return confirmDelete();"><img src="includes/languages/english/images/buttons/button_delete.gif" border="0" alt="Click to delete record"></a></td>';
+echo '</tr>';
+}
+//  End second loop
+}
+//  End first loop for results
+}
+?>
+
+<!-- Begin Next Menu //-->
+<table width="100%" align="center">
+<tr>
+<td><a href="database_check.php"><img src="includes/languages/english/images/buttons/button_main.gif" border="0" alt="Back to start"></a></td>
+<td><a href="database_check.php?action=1"><img src="includes/languages/english/images/buttons/button_next.gif" border="0" alt="Skip to the next step"></a></td>
+</tr>
+</table>
+<!-- End Next Menu //-->
+
+<?php
+}
 ?>
 
 <!--  Begin function confirm delete //-->

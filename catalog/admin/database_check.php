@@ -238,6 +238,11 @@ case '18':
 manufacturer_no_product();
 break;
 
+//  Begin case for duplicate models function.
+case '19':
+duplicate_models();
+break;
+
 default:
 finish();
 break;
@@ -299,6 +304,11 @@ default:
 <td align=center class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" width="33%"><a href="database_check.php?action=16"><?php echo HEADING_ACTION_PRODUCTS_NO_DESCRIPTION; ?></td>
 <td align=center class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" width="33%"><a href="database_check.php?action=17"><?php echo HEADING_ACTION_PRODUCTS_DESCRIPTION_NO_CATEGORY; ?></td>
 <td align=center class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" width="33%"><a href="database_check.php?action=18"><?php echo HEADING_ACTION_MANUFACTURERS_NO_PRODUCTS; ?></td>
+</tr>
+<tr class="dataTableHeadingRow">
+<td align=center class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" width="33%"><a href="database_check.php?action=19"><?php echo HEADING_ACTION_DUPLICATE_MODEL; ?></td>
+<td align=center class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" width="33%">&nbsp;</td>
+<td align=center class="dataTableRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" width="33%">&nbsp;</td>
 </tr>
 </table>
           <table border="0" width="100%" cellspacing="0" cellpadding="0">

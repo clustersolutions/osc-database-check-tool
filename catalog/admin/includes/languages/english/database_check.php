@@ -15,6 +15,7 @@
 define('HEADING_TITLE', 'Database Checking Tool v1.8');
 define('MAIN_MENU_TITLE', 'Main Menu');
 define('HEADING_ACTION_DUPLICATE_NAME', 'Products with duplicate names');
+define('HEADING_ACTION_DUPLICATE_MODEL', 'Products with duplicate models');
 define('HEADING_ACTION_PRODUCTS_WITHOUT_NAME', 'Products without a Name');
 define('HEADING_ACTION_PRODUCTS_PRICE_0', 'Products with a price of zero');
 define('HEADING_ACTION_PRODUCTS_WEIGHT_0', 'Products with a weight of zero');
@@ -38,6 +39,7 @@ define('HEADING_ACTION_DESCRIPTION', 'Using this tool you can carry out housekee
 define('HEADING_ACTION_ID', 'Id');
 define('HEADING_ACTION_MODEL', 'Model');
 define('HEADING_ACTION_PRODUCT_NAME', 'Product Name');
+define('HEADING_ACTION_PRODUCT_NO_MODEL', 'Product Model');
 define('HEADING_ACTION_LANGUAGE_ID', 'Language ID');
 define('HEADING_ACTION_SUB_CATEGORY', 'Sub Cats in this Cat');
 define('HEADING_ACTION_DATE_ADDED', 'Date Added');
@@ -54,6 +56,7 @@ define('HEADING_ACTION_ADD_PRODUCTS', 'Add Products');
 
 //  Nothing found responses for all pages + finish dialog
 define('NO_PRODUCTS_NAMES', 'No duplicate products found in your database!');
+define('NO_PRODUCTS_MODELS', 'No duplicate products found in your database!');
 define('NO_PRODUCTS_TITLES', 'All products have titles!');
 define('PRODUCTS_PRICE_0', 'All products have prices!');
 define('PRODUCTS_WEIGHT_0', 'All products have weights!');
